@@ -3,4 +3,10 @@
 *.class
 *.log
 .idea
+visualisation/target
+visualisation/visualisation.iml
+common/target
+cluster/target
+cluster/cluster.iml
+common/common.iml
 

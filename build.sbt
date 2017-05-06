@@ -1,15 +1,23 @@
-enablePlugins(ScalaJSPlugin)
-
-name := "reactive-web-missile"
+name := ReactiveWebMissileBuild.NamePrefix + "root"
 
 version := "1.0"
 
 scalaVersion := "2.12.2"
 
-resolvers += Resolver.sonatypeRepo("snapshots")
+lazy val common = project.
+  settings(Common.settings: _*)
 
-scalaJSUseMainModuleInitializer := true
-libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.1"
-//libraryDependencies += "com.github.ahnfelt" % "react4s_2,11" % "0.8.4-SNAPSHOT"
-//libraryDependencies += "org.scala-js" % "scalajs-dom_2.11" % "0.9.0"
+lazy val visualisation = project.
+//  dependsOn(common).
+  enablePlugins(ScalaJSPlugin).
+  settings(Common.settings: _*).
+  settings(scalaJSUseMainModuleInitializer := true).
+  settings(libraryDependencies ++= Dependencies.scalaJs)
+
+lazy val cluster = project.
+  dependsOn(common).
+  settings(Common.settings: _*)
+
+lazy val root = (project in file(".")).
+  aggregate(common, visualisation, cluster)
         
